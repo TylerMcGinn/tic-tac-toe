@@ -4,6 +4,7 @@
 
 
 void startGame();
+void getUsersName();
 void drawBoard();
 void greeting();
 
@@ -35,6 +36,12 @@ ticTacToe game = {
 void startGame(){
     greeting();
 }
+
+void getUsersName(){
+    printf("What's your name:");
+    //todo:start here
+}
+
 
 
 void drawBoard(){
