@@ -72,7 +72,6 @@ void getPlayerMove(){
     scanf("%d,%d", &game.playerMoveX, &game.playerMoveY);
     game.state[--game.playerMoveX][--game.playerMoveY] = game.playerX;
     drawBoard();
-    // printf("\nyour move was x:%d, y:%d\n",game.playerMoveX,game.playerMoveY);
 }
 
 
@@ -81,7 +80,7 @@ void greeting(){
     char* myName = "Tyler McGinn T00661302";
     char* course = "COMP 2131 - SPRING 2020";
     char* message = "You will be playing against the Computer!";
-    for(int i=0; i<80; i++) printf("*");
+    for(int i=0; i<80 ; i++) printf("*");
     printf("\n%s\n%s\n%s\n%s\n",game, myName, course, message);
     for(int i=0; i<80; i++) printf("*");
     printf("\n\n");
