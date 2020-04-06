@@ -7,6 +7,7 @@ void startGame();
 void getUsersName();
 void drawBoard();
 void greeting();
+void getPlayerMove();
 
 
 typedef struct{
@@ -15,6 +16,8 @@ typedef struct{
     char* playerX;
     char* playerO;
     char* state[3][3];
+    int playerMoveX;
+    int playerMoveY;
     void (*startGame)();
     void (*drawBoard)();
 }ticTacToe;
@@ -23,11 +26,13 @@ typedef struct{
 ticTacToe game = {
     " | ",
     "---",
-    " x ",
-    " o ",
+    " X ",
+    " O ",
     {{"   ","   ","   "},
     {"   ","   ","   "},
     {"   ","   ","   "}},
+    0,
+    0,
     &startGame,
     &drawBoard
 };
@@ -35,11 +40,15 @@ ticTacToe game = {
 
 void startGame(){
     greeting();
+    getUsersName();
 }
 
+
 void getUsersName(){
+    char usersName[100];
     printf("What's your name:");
-    //todo:start here
+    scanf("%s", &usersName);
+    printf("\nHi %s, lets play, you will be X and I will be O\n",usersName);
 }
 
 
@@ -58,6 +67,15 @@ void drawBoard(){
 }
 
 
+void getPlayerMove(){
+    printf("\nEnter your move X,Y:");
+    scanf("%d,%d", &game.playerMoveX, &game.playerMoveY);
+    game.state[--game.playerMoveX][--game.playerMoveY] = game.playerX;
+    drawBoard();
+    // printf("\nyour move was x:%d, y:%d\n",game.playerMoveX,game.playerMoveY);
+}
+
+
 void greeting(){
     char* game = "Tic-Tac-Toe";
     char* myName = "Tyler McGinn T00661302";
@@ -66,6 +84,7 @@ void greeting(){
     for(int i=0; i<80; i++) printf("*");
     printf("\n%s\n%s\n%s\n%s\n",game, myName, course, message);
     for(int i=0; i<80; i++) printf("*");
+    printf("\n\n");
 }
 
 #endif

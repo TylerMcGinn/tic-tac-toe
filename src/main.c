@@ -4,7 +4,8 @@
 
 
 int main(){
-    game.startGame();
+    // game.startGame();
+    getPlayerMove();
     
     system("pause");
     return 0;
