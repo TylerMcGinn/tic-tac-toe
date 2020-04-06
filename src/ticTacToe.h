@@ -68,8 +68,9 @@ void drawBoard(){
 
 
 void getPlayerMove(){
+    char separator;
     printf("\nEnter your move X,Y:");
-    scanf("%d,%d", &game.playerMoveX, &game.playerMoveY);
+    scanf("%d%c%d", &game.playerMoveX, &separator, &game.playerMoveY);
     game.state[--game.playerMoveX][--game.playerMoveY] = game.playerX;
     drawBoard();
 }
