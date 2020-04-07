@@ -52,7 +52,6 @@ void getUsersName(){
 }
 
 
-
 void drawBoard(){
     for(int row=0; row < 3; row++){
         for(int col = 0; col < 2; col++){
@@ -68,23 +67,19 @@ void drawBoard(){
 
 
 void getPlayerMove(){
-    // char separator[80];
     char separator;
-    // game.playerMoveX = 0;
-    // game.playerMoveY = 0;
     printf("\nEnter your move X,Y:");
-    scanf("%d %d", &game.playerMoveX, &game.playerMoveY);
+    scanf("%d , %d", &game.playerMoveX, &game.playerMoveY);
     if(game.playerMoveX >= 1 && game.playerMoveX <= 3 && game.playerMoveY >= 1 && game.playerMoveY <= 3 ){
         game.state[--game.playerMoveX][--game.playerMoveY] = game.playerX;
+        fflush(stdin);
         drawBoard();
-        // printf("hit");
     }
-    else
-    {
+    else{
         printf("\nIllegal move! try again.\n");
+        fflush(stdin);
         getPlayerMove();
     }
-    
 }
 
 
