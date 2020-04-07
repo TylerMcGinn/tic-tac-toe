@@ -68,11 +68,23 @@ void drawBoard(){
 
 
 void getPlayerMove(){
+    // char separator[80];
     char separator;
+    // game.playerMoveX = 0;
+    // game.playerMoveY = 0;
     printf("\nEnter your move X,Y:");
-    scanf("%d%c%d", &game.playerMoveX, &separator, &game.playerMoveY);
-    game.state[--game.playerMoveX][--game.playerMoveY] = game.playerX;
-    drawBoard();
+    scanf("%d %d", &game.playerMoveX, &game.playerMoveY);
+    if(game.playerMoveX >= 1 && game.playerMoveX <= 3 && game.playerMoveY >= 1 && game.playerMoveY <= 3 ){
+        game.state[--game.playerMoveX][--game.playerMoveY] = game.playerX;
+        drawBoard();
+        // printf("hit");
+    }
+    else
+    {
+        printf("\nIllegal move! try again.\n");
+        getPlayerMove();
+    }
+    
 }
 
 
