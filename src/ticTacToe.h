@@ -1,6 +1,11 @@
 #ifndef TICTACTOE
 #define TICTACTOE
 #include <stdio.h>
+#define X_PLAY " X "
+#define O_PLAY " O "
+#define OPEN_POSITION "   "
+#define VERTICAL_DIV " | "
+#define HORIZONTAL_DIV "---"
 
 
 void startGame();
@@ -8,33 +13,26 @@ void getUsersName();
 void drawBoard();
 void greeting();
 void getPlayerMove();
+char* drawMove(int play);
+int isValidRange(int x, int y);
+int moveAvailable(int x, int y);
+int isLegalMove(int x, int y);
 
 
-typedef struct{
-    char* boardVertical;
-    char* boardHorizontal;
-    char* playerX;
-    char* playerO;
-    char* state[3][3];
-    int playerMoveX;
-    int playerMoveY;
-    void (*startGame)();
-    void (*drawBoard)();
-}ticTacToe;
-
-
-ticTacToe game = {
-    " | ",
-    "---",
-    " X ",
-    " O ",
-    {{"   ","   ","   "},
-    {"   ","   ","   "},
-    {"   ","   ","   "}},
+struct{
+    int playerX;
+    int playerO;
+    int boardState[3][3];
+    int playerInputX;
+    int playerInputY;
+}game = {
+    1,
+    0,
+    {{0, -1, -1},
+    {-1, 1, -1},
+    {-1, -1, -1}},
     0,
     0,
-    &startGame,
-    &drawBoard
 };
 
 
@@ -52,26 +50,46 @@ void getUsersName(){
 }
 
 
+char* drawMove(int play){
+    return play == -1 ? OPEN_POSITION : (play == 1) ? X_PLAY : O_PLAY;
+}
+
+
 void drawBoard(){
     for(int row=0; row < 3; row++){
-        for(int col = 0; col < 2; col++){
-            printf("%s", game.state[row][col]);
+        for(int col = 0; col < 3; col++){
+            printf("%s",drawMove(game.boardState[row][col]));
             if(col < 2)
-                printf("%s",game.boardVertical);
+                printf("%s", VERTICAL_DIV);
         }
         if(row < 2)
-            printf("\n%s%s%s%s%s\n",game.boardHorizontal, game.boardVertical, game.boardHorizontal, game.boardVertical, game.boardHorizontal);
+            printf("\n%s%s%s%s%s\n", HORIZONTAL_DIV, VERTICAL_DIV, HORIZONTAL_DIV, VERTICAL_DIV, HORIZONTAL_DIV);
     }
     printf("\n");
+}
+
+
+int isValidRange(int x, int y){
+    return (x >= 1 && x <= 3 && y >= 1 && y <= 3 ) ? 1 : 0;
+}
+
+
+int moveAvailable(int x, int y){
+    return (game.boardState[--x][--y] == -1) ? 1 : 0;
+}
+
+
+int isLegalMove(int x, int y){
+    return (isValidRange(x, y) && moveAvailable(x, y)) ? 1 : 0;
 }
 
 
 void getPlayerMove(){
     char separator;
     printf("\nEnter your move X,Y:");
-    scanf("%d , %d", &game.playerMoveX, &game.playerMoveY);
-    if(game.playerMoveX >= 1 && game.playerMoveX <= 3 && game.playerMoveY >= 1 && game.playerMoveY <= 3 ){
-        game.state[--game.playerMoveX][--game.playerMoveY] = game.playerX;
+    scanf("%d , %d", &game.playerInputX, &game.playerInputY);
+    if(isLegalMove(game.playerInputX, game.playerInputY)){
+        game.boardState[--game.playerInputX][--game.playerInputY] = game.playerX;
         fflush(stdin);
         drawBoard();
     }
