@@ -11,14 +11,13 @@
 #define VERTICAL_DIV " | "
 #define HORIZONTAL_DIV "---"
 
-int diagonals[] = {0,0};
 
+void generateSeed();
 void startGame();
 void greeting();
 void getUsersName();
 void randomStart();
 void play();
-void botMove();
 void botPlayMove();
 void getPlayerMove();
 int isValidRange(int x, int y);
@@ -26,8 +25,8 @@ int moveAvailable(int x, int y);
 int isLegalMove(int x, int y);
 char* drawMove(int play);
 void drawBoard();
-// void checkdiagonals(int player);
-// int checkWin();
+void draw();
+int checkWin();
 int randomBool();
 int randomNumber(int upperLimit);
 void delay(int ms);
@@ -118,8 +117,16 @@ struct{
 };
 
 
+void generateSeed(){
+    struct timespec ts;
+    int seed = (ts.tv_nsec & time(NULL));
+    srand(seed);
+}
+
+
 
 void startGame(){
+    generateSeed();
     greeting();
     getUsersName();
     randomStart();
@@ -157,49 +164,45 @@ void randomStart(){
 void play(){
     if(game.playerTurn){
         getPlayerMove();
-        game.playerTurn = !game.playerTurn;
+        game.playerTurn = FALSE;
     }
     else{
         botPlayMove();
-        game.playerTurn = !game.playerTurn;
+        game.playerTurn = TRUE;
     }
 }
 
-void botMove(){
+
+void botPlayMove(){
     int randomMoveX = randomNumber(3);
-    delay(randomNumber(1000));
     int randomMoveY = randomNumber(3);
-    if(isLegalMove(randomMoveX, randomMoveY)){
-        game.boardState[--randomMoveX][--randomMoveY] = game.playerO;
+    if(game.gameJustStarted){
+        game.boardState[randomMoveX][randomMoveY] = game.playerO;
+        game.gameJustStarted = FALSE;
         drawBoard();
     }
     else{
-        delay(500);
-        botMove();
+        if(isLegalMove(randomMoveX, randomMoveY)){
+            game.boardState[randomMoveX][randomMoveY] = game.playerO;
+            drawBoard();
+        }
+        else{
+            // delay(100);
+            botPlayMove();
+        }
     }
 
 }
 
-void botPlayMove(){
-    if(game.gameJustStarted){
-        botMove();
-        game.gameJustStarted = FALSE;
-    }
-    else{
-        botMove();
-    }
-        
-    //todo:gamecheck and play logic
-}
 
 
 int isValidRange(int x, int y){
-    return (x >= 1 && x <= 3 && y >= 1 && y <= 3 ) ? 1 : 0;
+    return (x >= 0 && x <= 2 && y >= 0 && y <= 2 ) ? 1 : 0;
 }
 
 
 int moveAvailable(int x, int y){
-    return (game.boardState[--x][--y] == -1) ? 1 : 0;
+    return (game.boardState[x][y] == -1) ? 1 : 0;
 }
 
 
@@ -211,8 +214,10 @@ int isLegalMove(int x, int y){
 void getPlayerMove(){
     printf("\nEnter your move X,Y:");
     scanf("%d , %d", &game.playerInputX, &game.playerInputY);
+    game.playerInputX--;
+    game.playerInputY--;
     if(isLegalMove(game.playerInputX, game.playerInputY)){
-        game.boardState[--game.playerInputX][--game.playerInputY] = game.playerX;
+        game.boardState[game.playerInputX][game.playerInputY] = game.playerX;
         fflush(stdin);
         drawBoard();
     }
@@ -255,14 +260,14 @@ void drawBoard(){
 //     }
 // }
 
+void draw(){
 
-// int checkWin(){
-//     for(int row=0; row<3; row++){
-//         for(int col=0; col<3; col++){
+}
 
-//         }
-//     }
-// }
+int checkWin(){
+    
+}
+
 
 int randomBool(){
     srand(time(0));
@@ -273,15 +278,10 @@ int randomBool(){
 
 
 int randomNumber(int upperLimit){
-    struct timespec ts;
-    // timespec_get(&ts, TIME_UTC);
-
-    // printf("&09ld\n",ts.tv_nsec);
-    int seed = (ts.tv_nsec & time(NULL));
-    srand(seed);
-    int rando = 1 + (rand() % 1000);
-    float number = rando / 1000.0f;
-    return (int)((number * (upperLimit-1)) + 1);
+    return rand() % upperLimit;
+    // int rando = 1 + (rand() % 1000);
+    // float number = rando / 1000.0f;
+    // return (int)((number * (upperLimit-1)) + 1);
 }
 
 void delay(int delayMs){

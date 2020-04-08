@@ -20,7 +20,10 @@ int main(){
     //     delay(2000);
     //     printf("end\n");
     // }
-    printf("%d\n",randomNumber(1000));
+    while(1){
+        botPlayMove();
+        delay(1000);
+    }
     
     return 0;
 }
