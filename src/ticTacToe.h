@@ -18,6 +18,7 @@ void greeting();
 void getUsersName();
 void randomStart();
 void play();
+void botMove();
 void botPlayMove();
 void getPlayerMove();
 int isValidRange(int x, int y);
@@ -25,9 +26,11 @@ int moveAvailable(int x, int y);
 int isLegalMove(int x, int y);
 char* drawMove(int play);
 void drawBoard();
-void checkdiagonals(int player);
-int checkWin();
-int randomNumber(int lowerLimit, int upperLimit);
+// void checkdiagonals(int player);
+// int checkWin();
+int randomBool();
+int randomNumber(int upperLimit);
+void delay(int ms);
 
 
 struct TicTacToe{
@@ -47,27 +50,82 @@ struct TicTacToe{
     0,
     1,
     0,
-    {{0, -1, -1},
-    {-1, 1, -1},
-    {0, -1, 1}}
+    {{-1, -1, -1},
+    {-1, -1, -1},
+    {-1, -1, -1}}
 };
 
-//todo: BROKEN-figure out struct pointers
-struct TicTacToe* p = &game;
 
-//todo: finish bot logic check state management struct
 struct{
-    int* rightDiagonal[1];
-    int leftDiagonal[3];
-}gameTemplates = {
-    {p->boardState[0][0]}
+    int* leftDiag[3];
+    int* rightDiag[3];
+    int* leftVert[3];
+    int* middleVert[3];
+    int* rightVert[3];
+    int* upperHor[3];
+    int* middleHor[3];
+    int* lowerHor[3];
+}point = {
+    {
+        //leftDiag
+        &game.boardState[0][0],
+        &game.boardState[1][1],
+        &game.boardState[2][2]
+    },
+    {
+        //rightDiag
+        &game.boardState[0][2],
+        &game.boardState[1][1],
+        &game.boardState[2][0]
+    },
+    {
+        //leftVert
+        &game.boardState[0][0],
+        &game.boardState[1][0],
+        &game.boardState[2][0]
+    
+    },
+    {
+        //middleVert
+        &game.boardState[0][1],
+        &game.boardState[1][1],
+        &game.boardState[2][1]
+    },
+    {
+        //rightVert
+        &game.boardState[0][2],
+        &game.boardState[1][2],
+        &game.boardState[2][2]
+    },
+    {
+        //upperHor
+        &game.boardState[0][0],
+        &game.boardState[0][1],
+        &game.boardState[0][2]
+    },
+    {
+        //middleHor
+        &game.boardState[1][0],
+        &game.boardState[1][1],
+        &game.boardState[1][2]
+    },
+     {
+        //bottomHor
+        &game.boardState[2][0],
+        &game.boardState[2][1],
+        &game.boardState[2][2]
+    }
 };
+
 
 
 void startGame(){
     greeting();
     getUsersName();
     randomStart();
+    while(1){
+        play();
+    }
 }
 
 
@@ -92,26 +150,45 @@ void getUsersName(){
 
 
 void randomStart(){
-    game.playerTurn = randomNumber(0,1);
+    game.playerTurn = randomBool();
 }
 
 
 void play(){
-    if(game.playerTurn)
+    if(game.playerTurn){
         getPlayerMove();
-    else
+        game.playerTurn = !game.playerTurn;
+    }
+    else{
         botPlayMove();
+        game.playerTurn = !game.playerTurn;
+    }
 }
 
+void botMove(){
+    int randomMoveX = randomNumber(3);
+    delay(randomNumber(1000));
+    int randomMoveY = randomNumber(3);
+    if(isLegalMove(randomMoveX, randomMoveY)){
+        game.boardState[--randomMoveX][--randomMoveY] = game.playerO;
+        drawBoard();
+    }
+    else{
+        delay(500);
+        botMove();
+    }
+
+}
 
 void botPlayMove(){
     if(game.gameJustStarted){
-        int randomMoveX = randomNumber(1,3);
-        int randomMoveY = randomNumber(1,3);
-        game.boardState[randomMoveX][randomMoveY] = O_PLAY;
+        botMove();
         game.gameJustStarted = FALSE;
-        drawBoard();
     }
+    else{
+        botMove();
+    }
+        
     //todo:gamecheck and play logic
 }
 
@@ -166,31 +243,50 @@ void drawBoard(){
 }
 
 
-void checkdiagonals(int player){
-    diagonals[0] = 0, diagonals[1] = 0;
-    for(int i=0;i<3; i++){
-        if(game.boardState[i][i] == player)
-            diagonals[0]++;
-    }
-    for(int i=0; i<=2; i++){
-        if(game.boardState[i][abs(2-i)] == player)
-            diagonals[1]++;
-    }
-}
+// void checkdiagonals(int player){
+//     diagonals[0] = 0, diagonals[1] = 0;
+//     for(int i=0;i<3; i++){
+//         if(game.boardState[i][i] == player)
+//             diagonals[0]++;
+//     }
+//     for(int i=0; i<=2; i++){
+//         if(game.boardState[i][abs(2-i)] == player)
+//             diagonals[1]++;
+//     }
+// }
 
 
-int checkWin(){
-    for(int row=0; row<3; row++){
-        for(int col=0; col<3; col++){
+// int checkWin(){
+//     for(int row=0; row<3; row++){
+//         for(int col=0; col<3; col++){
 
-        }
-    }
-}
+//         }
+//     }
+// }
 
-
-int randomNumber(int lowerLimit, int upperLimit){
+int randomBool(){
     srand(time(0));
-    return lowerLimit + (rand() % upperLimit);
+    int rando = 1 + (rand() % 100);
+    float number = rando / 100.0f;
+    return round(number);
+}
+
+
+int randomNumber(int upperLimit){
+    struct timespec ts;
+    // timespec_get(&ts, TIME_UTC);
+
+    // printf("&09ld\n",ts.tv_nsec);
+    int seed = (ts.tv_nsec & time(NULL));
+    srand(seed);
+    int rando = 1 + (rand() % 1000);
+    float number = rando / 1000.0f;
+    return (int)((number * (upperLimit-1)) + 1);
+}
+
+void delay(int delayMs){
+    int start = clock();
+    while(clock() < (start + delayMs));
 }
 
 

@@ -13,8 +13,14 @@ int main(){
     // printf("x diag Count left:%d right:%d\n",diagonals[0], diagonals[1]);
     // checkdiagonals(game.playerO);
     // printf("o diag Count left:%d right:%d\n", diagonals[0], diagonals[1]);   
-    printf("%d\n", randomNumber(1,3)); 
-
-    // system("pause");
+    // startGame();
+    // printf("%d\n",randomNumber(3));
+    // for(int i=0; i<10;i++){
+    //     printf("start\n");
+    //     delay(2000);
+    //     printf("end\n");
+    // }
+    printf("%d\n",randomNumber(1000));
+    
     return 0;
 }
