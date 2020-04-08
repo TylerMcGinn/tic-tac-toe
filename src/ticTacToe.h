@@ -2,6 +2,9 @@
 #define TICTACTOE
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
+#define TRUE 1
+#define FALSE 0
 #define X_PLAY " X "
 #define O_PLAY " O "
 #define OPEN_POSITION "   "
@@ -13,6 +16,9 @@ int diagonals[] = {0,0};
 void startGame();
 void greeting();
 void getUsersName();
+void randomStart();
+void play();
+void botPlayMove();
 void getPlayerMove();
 int isValidRange(int x, int y);
 int moveAvailable(int x, int y);
@@ -21,30 +27,47 @@ char* drawMove(int play);
 void drawBoard();
 void checkdiagonals(int player);
 int checkWin();
-int betweenOneAndThree();
+int randomNumber(int lowerLimit, int upperLimit);
 
-struct{
+
+struct TicTacToe{
+    int playerTurn;
     int playerX;
     int playerO;
     int playerInputX;
     int playerInputY;
+    int gameJustStarted;
     int finished;
     int boardState[3][3];
 }game = {
+    0,
     1,
     0,
     0,
     0,
+    1,
     0,
     {{0, -1, -1},
     {-1, 1, -1},
     {0, -1, 1}}
 };
 
+//todo: BROKEN-figure out struct pointers
+struct TicTacToe* p = &game;
+
+//todo: finish bot logic check state management struct
+struct{
+    int* rightDiagonal[1];
+    int leftDiagonal[3];
+}gameTemplates = {
+    {p->boardState[0][0]}
+};
+
 
 void startGame(){
     greeting();
     getUsersName();
+    randomStart();
 }
 
 
@@ -68,6 +91,31 @@ void getUsersName(){
 }
 
 
+void randomStart(){
+    game.playerTurn = randomNumber(0,1);
+}
+
+
+void play(){
+    if(game.playerTurn)
+        getPlayerMove();
+    else
+        botPlayMove();
+}
+
+
+void botPlayMove(){
+    if(game.gameJustStarted){
+        int randomMoveX = randomNumber(1,3);
+        int randomMoveY = randomNumber(1,3);
+        game.boardState[randomMoveX][randomMoveY] = O_PLAY;
+        game.gameJustStarted = FALSE;
+        drawBoard();
+    }
+    //todo:gamecheck and play logic
+}
+
+
 int isValidRange(int x, int y){
     return (x >= 1 && x <= 3 && y >= 1 && y <= 3 ) ? 1 : 0;
 }
@@ -84,7 +132,6 @@ int isLegalMove(int x, int y){
 
 
 void getPlayerMove(){
-    char separator;
     printf("\nEnter your move X,Y:");
     scanf("%d , %d", &game.playerInputX, &game.playerInputY);
     if(isLegalMove(game.playerInputX, game.playerInputY)){
@@ -141,9 +188,9 @@ int checkWin(){
 }
 
 
-int betweenOneAndThree(){
-    rand()
-    //todo: make random number between 1 and 3
+int randomNumber(int lowerLimit, int upperLimit){
+    srand(time(0));
+    return lowerLimit + (rand() % upperLimit);
 }
 
 
