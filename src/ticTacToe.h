@@ -12,6 +12,20 @@
 #define VERTICAL_DIV " | "
 #define HORIZONTAL_DIV "---"
 
+struct TicTacToe{
+    bool playerTurn;
+    bool playerX;
+    bool playerO;
+    int playerInputX;
+    int playerInputY;
+    bool gameJustStarted;
+    int boardState[3][3];
+};
+
+typedef struct{
+    int score;
+    int* targetCells[3];
+}cells;
 
 void generateSeed();
 void startGame();
@@ -34,17 +48,12 @@ int playerScore(int** cell, int player);
 bool randomBool();
 int randomNumber(int upperLimit);
 void delay(int ms);
+void updateScore(cells* object, int score);
+void swapScores(cells* x, cells* y);
+void sortScores(cells** array);
 
 
-struct TicTacToe{
-    bool playerTurn;
-    bool playerX;
-    bool playerO;
-    int playerInputX;
-    int playerInputY;
-    bool gameJustStarted;
-    int boardState[3][3];
-}game = {
+struct TicTacToe game = {
     false,
     true,
     false,
@@ -61,12 +70,6 @@ struct TicTacToe{
     {-1, -1, 0},
     {-1, -1, -1}}
 };
-
-
-typedef struct{
-    int score;
-    int* targetCells[3];
-}cells;
 
 
 struct{
@@ -89,7 +92,6 @@ struct{
             &game.boardState[2][2]
         }
     },
-   
     {
         0,
         {
@@ -320,10 +322,6 @@ void gameWon(int player){
 }
 
 
-bool any(){
-    
-}
-
 
 int checkWin(int player){
     
@@ -334,7 +332,7 @@ bool playerWon(int score){
     return score == 3 ? true : false;
 }
 
-//input format: playerScore(rowsColumnsDiags.all[i], game.playerX);
+//NOTE: input format = playerScore(rowsColumnsDiags.all[i]->targetCells, game.playerX);
 int playerScore(int** cell, int player){
     int sum = 0;
     for(int i=0; i<3; i++){
@@ -363,5 +361,24 @@ void delay(int delayMs){
     while(clock() < (start + delayMs));
 }
 
+
+void updateScore(cells* object, int score){
+    object->score = score;
+}
+
+void swapScores(cells* x, cells* y){
+    cells temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+void sortScores(cells** array){
+    for(int i=0; i<8; i++){
+        for(int j=i+1; j<8; j++){
+            if(array[i]->score < array[j]->score)
+                swapScores(array[i], array[j]);
+        }
+    }
+}
 
 #endif

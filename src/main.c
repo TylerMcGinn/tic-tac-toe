@@ -15,16 +15,6 @@ void testplayerScore(int** cell, int player){
 }
 
 
-void updateScore(cells* object, int score){
-    object->score = score;
-}
-
-
-void sortScores(cells* array){
-    
-}
-
-
 int main(){
     generateSeed();
     for(int i=0; i<8; i++){
@@ -32,12 +22,11 @@ int main(){
         int newScore = playerScore(rowsColumnsDiags.all[i]->targetCells, game.playerX);
         updateScore(rowsColumnsDiags.all[i], newScore);
     }
-    
+    sortScores(rowsColumnsDiags.all);
     for(int i=0; i<8; i++){
         printf("%d\n", rowsColumnsDiags.all[i]->score);
     }
-    // updateScore(rowsColumnsDiags.all[0], 10);
-    // printf("%d\n", rowsColumnsDiags.all[0]->score);
+    
     system("pause");
     return 0;
 }
