@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ticTacToe.h"
-#include <ctype.h>
 
 
 void testplayerScore(int** cell, int player){
@@ -18,7 +17,6 @@ void testplayerScore(int** cell, int player){
 int main(){
     generateSeed();
     for(int i=0; i<8; i++){
-        // printf("%d\n", playerScore(rowsColumnsDiags.all[i]->targetCells, game.playerX));
         int newScore = playerScore(rowsColumnsDiags.all[i]->targetCells, game.playerX);
         updateScore(rowsColumnsDiags.all[i], newScore);
     }
