@@ -30,7 +30,7 @@ void gameIsDraw();
 void gameWon();
 int checkWin();
 bool playerWon(int score);
-int playerScore(int** line, int player);
+int playerScore(int** rowColDiag, int player);
 bool randomBool();
 int randomNumber(int upperLimit);
 void delay(int ms);
@@ -54,9 +54,12 @@ struct TicTacToe{
     // {{-1, -1, -1},
     // {-1, -1, -1},
     // {-1, -1, -1}}
-    {{1, 2, 3},
-    {4, 5, 6},
-    {7, 8, 9}}
+    // {{1, 2, 3},
+    // {4, 5, 6},
+    // {7, 8, 9}}
+     {{1, 1, 0},
+    {-1, -1, 0},
+    {-1, -1, -1}}
 };
 
 
@@ -302,10 +305,10 @@ bool playerWon(int score){
 }
 
 
-int playerScore(int** line, int player){
+int playerScore(int** rowColDiag, int player){
     int sum = 0;
     for(int i=0; i<3; i++){
-        if(*line[i] == player)
+        if(*rowColDiag[i] == player)
             sum++;
     }
     return sum;
