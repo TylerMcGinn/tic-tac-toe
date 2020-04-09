@@ -30,7 +30,7 @@ void gameIsDraw();
 void gameWon();
 int checkWin();
 bool playerWon(int score);
-int playerScore(int** rowColDiag, int player);
+int playerScore(int** cell, int player);
 bool randomBool();
 int randomNumber(int upperLimit);
 void delay(int ms);
@@ -54,89 +54,113 @@ struct TicTacToe{
     // {{-1, -1, -1},
     // {-1, -1, -1},
     // {-1, -1, -1}}
-    // {{1, 2, 3},
-    // {4, 5, 6},
-    // {7, 8, 9}}
-     {{1, 1, 0},
-    {-1, -1, 0},
-    {-1, -1, -1}}
+    {{1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}}
+    //  {{1, 1, 0},
+    // {-1, -1, 0},
+    // {-1, -1, -1}}
 };
 
-typedef struct lines{
+typedef struct{
     int score;
     int* line[3];
-};
+}lines;
 
 struct{
-    int* leftDiag[3];
-    int* rightDiag[3];
-    int* upperRow[3];
-    int* middleRow[3];
-    int* lowerRow[3];
-    int* leftColumn[3];
-    int* middleColumn[3];
-    int* rightColumn[3];
+    lines leftDiag;
+    lines rightDiag;
+    lines upperRow;
+    lines middleRow;
+    lines lowerRow;
+    lines leftColumn;
+    lines middleColumn;
+    lines rightColumn;
     int** all[8];
 }rowsColumnsDiags = {
     {
-        //leftDiag
-        &game.boardState[0][0],
-        &game.boardState[1][1],
-        &game.boardState[2][2]
+        0,
+        {
+            //leftDiag
+            &game.boardState[0][0],
+            &game.boardState[1][1],
+            &game.boardState[2][2]
+        }
+    },
+   
+    {
+        0,
+        {
+            //rightDiag
+            &game.boardState[0][2],
+            &game.boardState[1][1],
+            &game.boardState[2][0]
+        }
     },
     {
-        //rightDiag
-        &game.boardState[0][2],
-        &game.boardState[1][1],
-        &game.boardState[2][0]
+        0,
+        {
+            //upperRow
+            &game.boardState[0][0],
+            &game.boardState[1][0],
+            &game.boardState[2][0]
+        }
     },
     {
-        //upperRow
-        &game.boardState[0][0],
-        &game.boardState[1][0],
-        &game.boardState[2][0]
-    
+        0,
+        {
+            //middleRow
+            &game.boardState[0][1],
+            &game.boardState[1][1],
+            &game.boardState[2][1]
+        }
     },
     {
-        //middleRow
-        &game.boardState[0][1],
-        &game.boardState[1][1],
-        &game.boardState[2][1]
+        0,
+        {
+            //bottomRow
+            &game.boardState[0][2],
+            &game.boardState[1][2],
+            &game.boardState[2][2]
+        }
     },
     {
-        //bottomRow
-        &game.boardState[0][2],
-        &game.boardState[1][2],
-        &game.boardState[2][2]
+        0,
+        {
+            //leftColumn
+            &game.boardState[0][0],
+            &game.boardState[0][1],
+            &game.boardState[0][2]
+        }
     },
     {
-        //leftColumn
-        &game.boardState[0][0],
-        &game.boardState[0][1],
-        &game.boardState[0][2]
-    },
-    {
-        //middleColumn
-        &game.boardState[1][0],
-        &game.boardState[1][1],
-        &game.boardState[1][2]
+        0,
+        {
+            //middleColumn
+            &game.boardState[1][0],
+            &game.boardState[1][1],
+            &game.boardState[1][2]
+        }
     },
      {
-        //rightColumn
-        &game.boardState[2][0],
-        &game.boardState[2][1],
-        &game.boardState[2][2]
+         0,
+         {
+            //rightColumn
+            &game.boardState[2][0],
+            &game.boardState[2][1],
+            &game.boardState[2][2]
+         }
     },
     {
         //array of all rows, columns and diagonals
-        &rowsColumnsDiags.leftDiag,
-        &rowsColumnsDiags.rightDiag,
-        &rowsColumnsDiags.leftColumn,
-        &rowsColumnsDiags.middleColumn,
-        &rowsColumnsDiags.rightColumn,
-        &rowsColumnsDiags.upperRow,
-        &rowsColumnsDiags.middleRow,
-        &rowsColumnsDiags.lowerRow
+        &rowsColumnsDiags.leftDiag.line,
+        &rowsColumnsDiags.rightDiag.line,
+        &rowsColumnsDiags.leftColumn.line,
+        &rowsColumnsDiags.middleColumn.line,
+        &rowsColumnsDiags.rightColumn.line,
+        &rowsColumnsDiags.upperRow.line,
+        &rowsColumnsDiags.middleRow.line,
+        &rowsColumnsDiags.lowerRow.line
     }
 };
 
@@ -309,10 +333,10 @@ bool playerWon(int score){
 }
 
 
-int playerScore(int** rowColDiag, int player){
+int playerScore(int** cell, int player){
     int sum = 0;
     for(int i=0; i<3; i++){
-        if(*rowColDiag[i] == player)
+        if(*cell[i] == player)
             sum++;
     }
     return sum;
