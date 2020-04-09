@@ -54,29 +54,31 @@ struct TicTacToe{
     // {{-1, -1, -1},
     // {-1, -1, -1},
     // {-1, -1, -1}}
-    {{1, 2, 3},
-    {4, 5, 6},
-    {7, 8, 9}}
-    //  {{1, 1, 0},
-    // {-1, -1, 0},
-    // {-1, -1, -1}}
+    // {{1, 2, 3},
+    // {4, 5, 6},
+    // {7, 8, 9}}
+     {{1, 1, 0},
+    {-1, -1, 0},
+    {-1, -1, -1}}
 };
+
 
 typedef struct{
     int score;
-    int* line[3];
-}lines;
+    int* targetCells[3];
+}cells;
+
 
 struct{
-    lines leftDiag;
-    lines rightDiag;
-    lines upperRow;
-    lines middleRow;
-    lines lowerRow;
-    lines leftColumn;
-    lines middleColumn;
-    lines rightColumn;
-    int** all[8];
+    cells leftDiag;
+    cells rightDiag;
+    cells upperRow;
+    cells middleRow;
+    cells lowerRow;
+    cells leftColumn;
+    cells middleColumn;
+    cells rightColumn;
+    cells* all[8];
 }rowsColumnsDiags = {
     {
         0,
@@ -153,14 +155,14 @@ struct{
     },
     {
         //array of all rows, columns and diagonals
-        &rowsColumnsDiags.leftDiag.line,
-        &rowsColumnsDiags.rightDiag.line,
-        &rowsColumnsDiags.leftColumn.line,
-        &rowsColumnsDiags.middleColumn.line,
-        &rowsColumnsDiags.rightColumn.line,
-        &rowsColumnsDiags.upperRow.line,
-        &rowsColumnsDiags.middleRow.line,
-        &rowsColumnsDiags.lowerRow.line
+        &rowsColumnsDiags.leftDiag,
+        &rowsColumnsDiags.rightDiag,
+        &rowsColumnsDiags.leftColumn,
+        &rowsColumnsDiags.middleColumn,
+        &rowsColumnsDiags.rightColumn,
+        &rowsColumnsDiags.upperRow,
+        &rowsColumnsDiags.middleRow,
+        &rowsColumnsDiags.lowerRow
     }
 };
 
@@ -332,7 +334,7 @@ bool playerWon(int score){
     return score == 3 ? true : false;
 }
 
-
+//input format: playerScore(rowsColumnsDiags.all[i], game.playerX);
 int playerScore(int** cell, int player){
     int sum = 0;
     for(int i=0; i<3; i++){
