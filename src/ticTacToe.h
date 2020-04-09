@@ -51,22 +51,26 @@ struct TicTacToe{
     0,
     0,
     true,
-    {{-1, -1, -1},
-    {-1, -1, -1},
-    {-1, -1, -1}}
+    // {{-1, -1, -1},
+    // {-1, -1, -1},
+    // {-1, -1, -1}}
+    {{1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}}
 };
 
 
 struct{
     int* leftDiag[3];
     int* rightDiag[3];
-    int* leftVert[3];
-    int* middleVert[3];
-    int* rightVert[3];
-    int* upperHor[3];
-    int* middleHor[3];
-    int* lowerHor[3];
-}line = {
+    int* upperRow[3];
+    int* middleRow[3];
+    int* lowerRow[3];
+    int* leftColumn[3];
+    int* middleColumn[3];
+    int* rightColumn[3];
+    int** all[8];
+}rowsColumnsDiags = {
     {
         //leftDiag
         &game.boardState[0][0],
@@ -80,41 +84,52 @@ struct{
         &game.boardState[2][0]
     },
     {
-        //leftVert
+        //upperRow
         &game.boardState[0][0],
         &game.boardState[1][0],
         &game.boardState[2][0]
     
     },
     {
-        //middleVert
+        //middleRow
         &game.boardState[0][1],
         &game.boardState[1][1],
         &game.boardState[2][1]
     },
     {
-        //rightVert
+        //bottomRow
         &game.boardState[0][2],
         &game.boardState[1][2],
         &game.boardState[2][2]
     },
     {
-        //upperHor
+        //leftColumn
         &game.boardState[0][0],
         &game.boardState[0][1],
         &game.boardState[0][2]
     },
     {
-        //middleHor
+        //middleColumn
         &game.boardState[1][0],
         &game.boardState[1][1],
         &game.boardState[1][2]
     },
      {
-        //bottomHor
+        //rightColumn
         &game.boardState[2][0],
         &game.boardState[2][1],
         &game.boardState[2][2]
+    },
+    {
+        //array of all rows, columns and diagonals
+        &rowsColumnsDiags.leftDiag,
+        &rowsColumnsDiags.rightDiag,
+        &rowsColumnsDiags.leftColumn,
+        &rowsColumnsDiags.middleColumn,
+        &rowsColumnsDiags.rightColumn,
+        &rowsColumnsDiags.upperRow,
+        &rowsColumnsDiags.middleRow,
+        &rowsColumnsDiags.lowerRow
     }
 };
 
