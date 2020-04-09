@@ -1,10 +1,11 @@
 #ifndef TICTACTOE
 #define TICTACTOE
+
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
-#define TRUE 1
-#define FALSE 0
+#include <stdbool.h>
+
 #define X_PLAY " X "
 #define O_PLAY " O "
 #define OPEN_POSITION "   "
@@ -16,39 +17,40 @@ void generateSeed();
 void startGame();
 void greeting();
 void getUsersName();
-void randomStart();
+void startingPlayerRandomize();
 void play();
-void botPlayMove();
+void botPlayerMove();
 void getPlayerMove();
-int isValidRange(int x, int y);
-int moveAvailable(int x, int y);
-int isLegalMove(int x, int y);
+bool isValidRange(int x, int y);
+bool moveAvailable(int x, int y);
+bool isLegalMove(int x, int y);
 char* drawMove(int play);
 void drawBoard();
-void draw();
+void gameIsDraw();
+void gameWon();
 int checkWin();
-int randomBool();
+bool playerWon(int score);
+int playerScore(int** line, int player);
+bool randomBool();
 int randomNumber(int upperLimit);
 void delay(int ms);
 
 
 struct TicTacToe{
-    int playerTurn;
-    int playerX;
-    int playerO;
+    bool playerTurn;
+    bool playerX;
+    bool playerO;
     int playerInputX;
     int playerInputY;
-    int gameJustStarted;
-    int finished;
+    bool gameJustStarted;
     int boardState[3][3];
 }game = {
+    false,
+    true,
+    false,
     0,
-    1,
     0,
-    0,
-    0,
-    1,
-    0,
+    true,
     {{-1, -1, -1},
     {-1, -1, -1},
     {-1, -1, -1}}
@@ -64,7 +66,7 @@ struct{
     int* upperHor[3];
     int* middleHor[3];
     int* lowerHor[3];
-}point = {
+}line = {
     {
         //leftDiag
         &game.boardState[0][0],
@@ -118,18 +120,15 @@ struct{
 
 
 void generateSeed(){
-    struct timespec ts;
-    int seed = (ts.tv_nsec & time(NULL));
-    srand(seed);
+    srand(time(0));
 }
-
 
 
 void startGame(){
     generateSeed();
     greeting();
     getUsersName();
-    randomStart();
+    startingPlayerRandomize();
     while(1){
         play();
     }
@@ -156,7 +155,7 @@ void getUsersName(){
 }
 
 
-void randomStart(){
+void startingPlayerRandomize(){
     game.playerTurn = randomBool();
 }
 
@@ -164,21 +163,21 @@ void randomStart(){
 void play(){
     if(game.playerTurn){
         getPlayerMove();
-        game.playerTurn = FALSE;
+        game.playerTurn = false;
     }
     else{
-        botPlayMove();
-        game.playerTurn = TRUE;
+        botPlayerMove();
+        game.playerTurn = true;
     }
 }
 
 
-void botPlayMove(){
+void botPlayerMove(){
     int randomMoveX = randomNumber(3);
     int randomMoveY = randomNumber(3);
     if(game.gameJustStarted){
         game.boardState[randomMoveX][randomMoveY] = game.playerO;
-        game.gameJustStarted = FALSE;
+        game.gameJustStarted = false;
         drawBoard();
     }
     else{
@@ -187,27 +186,25 @@ void botPlayMove(){
             drawBoard();
         }
         else{
-            // delay(100);
-            botPlayMove();
+            botPlayerMove();
         }
     }
-
 }
 
 
 
-int isValidRange(int x, int y){
-    return (x >= 0 && x <= 2 && y >= 0 && y <= 2 ) ? 1 : 0;
+bool isValidRange(int x, int y){
+    return (x >= 0 && x <= 2 && y >= 0 && y <= 2 ) ? true : false;
 }
 
 
-int moveAvailable(int x, int y){
-    return (game.boardState[x][y] == -1) ? 1 : 0;
+bool moveAvailable(int x, int y){
+    return (game.boardState[x][y] == -1) ? true: false;
 }
 
 
-int isLegalMove(int x, int y){
-    return (isValidRange(x, y) && moveAvailable(x, y)) ? 1 : 0;
+bool isLegalMove(int x, int y){
+    return (isValidRange(x, y) && moveAvailable(x, y)) ? true : false;
 }
 
 
@@ -260,29 +257,58 @@ void drawBoard(){
 //     }
 // }
 
-void draw(){
+
+void gameIsDraw(){
 
 }
 
-int checkWin(){
+
+void gameWon(int player){
+    if(player == game.playerX)
+        printf("YOU WIN!\n");
+    else
+        printf("COMPUTER WON!\n");
     
 }
 
 
-int randomBool(){
+bool any(){
+    
+}
+
+
+int checkWin(int player){
+    
+}
+
+
+bool playerWon(int score){
+    return score == 3 ? true : false;
+}
+
+
+int playerScore(int** line, int player){
+    int sum = 0;
+    for(int i=0; i<3; i++){
+        if(*line[i] == player)
+            sum++;
+    }
+    return sum;
+}
+
+
+bool randomBool(){
     srand(time(0));
-    int rando = 1 + (rand() % 100);
-    float number = rando / 100.0f;
+    int random = 1 + (rand() % 100);
+    float number = random / 100.0f;
     return round(number);
 }
 
 
 int randomNumber(int upperLimit){
     return rand() % upperLimit;
-    // int rando = 1 + (rand() % 1000);
-    // float number = rando / 1000.0f;
-    // return (int)((number * (upperLimit-1)) + 1);
 }
+
 
 void delay(int delayMs){
     int start = clock();
