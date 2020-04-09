@@ -62,6 +62,10 @@ struct TicTacToe{
     {-1, -1, -1}}
 };
 
+typedef struct lines{
+    int score;
+    int* line[3];
+};
 
 struct{
     int* leftDiag[3];
