@@ -17,7 +17,6 @@ bool isLegalMove(int x, int y){
 }
 
 
-
 void gameWon(int player){
     if(player == game.playerX)
         printf("YOU WIN!\n");

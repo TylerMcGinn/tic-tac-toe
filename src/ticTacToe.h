@@ -18,6 +18,8 @@ void delay(int ms);
 
 
 //bot.c
+void echoBotMove(int x, int y);
+int** canWinNextMove(int player);
 void botPlayerMove();
 void updateScore(cells* object, int score);
 void swapScores(cells* x, cells* y);
@@ -43,6 +45,7 @@ bool playerWon(int score);
 int playerScore(int** cell, int player);
 
 
+
 TicTacToe game = {
     false,
     true,
@@ -57,7 +60,7 @@ TicTacToe game = {
     // {4, 5, 6},
     // {7, 8, 9}}
      {{1, 1, 0},
-    {-1, -1, 0},
+    {-1, -1, -1},
     {-1, -1, -1}}
 };
 

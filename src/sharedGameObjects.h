@@ -20,6 +20,7 @@ typedef struct {
 
 typedef struct{
     int score;
+    // int coordinates[3][2];
     int* targetCells[3];
 }cells;
 
