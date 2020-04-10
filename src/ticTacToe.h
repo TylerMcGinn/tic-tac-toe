@@ -17,24 +17,23 @@ void startingPlayerRandomize();
 void delay(int ms);
 
 
-//bot.c
+//botPlayer.c
 void echoBotMove(int x, int y);
 cells* canWinNextMove(int player);
 void botPlayerMove();
 
 
+//userPlayer.c
+void getUsersName();
+void userPlayerMove();
+
 
 //game.c
 void greeting();
-void getUsersName();
 void startGame();
-void getPlayerMove();
 char* drawMove(int play);
 void drawBoard();
 void play();
-
-
-//gameValidation.c
 bool isValidRange(int x, int y);
 bool moveAvailable(int x, int y);
 bool isLegalMove(int x, int y);
@@ -46,6 +45,7 @@ void updateScore(cells* object, int score);
 void swapScores(cells* x, cells* y);
 void sortScores(cells** array);
 void updateAndSortScores(int player);
+
 
 TicTacToe game = {
     false,
