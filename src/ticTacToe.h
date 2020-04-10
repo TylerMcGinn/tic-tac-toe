@@ -9,7 +9,7 @@
 #include "sharedGameObjects.h"
 
 
-//gameUtil.c
+//gameRandomNum.c
 void generateSeed();
 bool randomBool();
 int randomNumber(int upperLimit);
