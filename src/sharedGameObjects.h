@@ -14,6 +14,8 @@ typedef struct {
     int playerInputX;
     int playerInputY;
     bool gameJustStarted;
+    bool gameInPlay;
+    bool winningPlayer;
     int boardState[3][3];
 }TicTacToe;
 
