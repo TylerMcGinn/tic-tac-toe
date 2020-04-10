@@ -19,7 +19,7 @@ void delay(int ms);
 
 //botPlayer.c
 void echoBotMove(int x, int y);
-cells* canWinNextMove(int player);
+void botRandomMove();
 void botPlayerMove();
 
 
@@ -37,7 +37,7 @@ void play();
 bool isValidRange(int x, int y);
 bool moveAvailable(int x, int y);
 bool isLegalMove(int x, int y);
-// bool cellsHaveLegalMove(cells cells);
+int cellsHaveLegalMove(int** cells);
 void gameWon();
 bool playerWon(int score);
 int playerScore(int** cell, int player);
@@ -45,6 +45,7 @@ void updateScore(cells* object, int score);
 void swapScores(cells* x, cells* y);
 void sortScores(cells** array);
 void updateAndSortScores(int player);
+cells* canWinNextMove(int player);
 
 
 TicTacToe game = {
@@ -79,7 +80,7 @@ boardPositions rowsColumnsDiags = {
     },
     {
         0,
-        {{1,1},{2,2},{3,3}},
+        {{1,2},{2,2},{3,3}},
         {
             //rightDiag
             &game.boardState[0][2],
@@ -89,7 +90,7 @@ boardPositions rowsColumnsDiags = {
     },
     {
         0,
-        {{1,1},{2,2},{3,3}},
+        {{1,3},{2,2},{3,3}},
         {
             //upperRow
             &game.boardState[0][0],
@@ -99,7 +100,7 @@ boardPositions rowsColumnsDiags = {
     },
     {
         0,
-        {{1,1},{2,2},{3,3}},
+        {{1,4},{2,2},{3,3}},
         {
             //middleRow
             &game.boardState[0][1],

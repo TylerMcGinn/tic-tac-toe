@@ -72,13 +72,13 @@ bool isLegalMove(int x, int y){
 }
 
 
-// bool cellsHaveLegalMove(int* cells){
-//     for(int i=0; i<3; i++){
-//         if(cells[i] == -1)
-//             return true;
-//     }
-//     return false;
-// }
+int cellsHaveLegalMove(int** cells){
+    for(int i=0; i<3; i++){
+        if(*cells[i] == -1)
+            return i;
+    }
+    return NULL;
+}
 
 
 void gameWon(int player){
@@ -134,4 +134,16 @@ void updateAndSortScores(int player){
         updateScore(rowsColumnsDiags.all[i], newScore);
     }
     sortScores(rowsColumnsDiags.all);
+}
+
+  
+cells* canWinNextMove(int player){
+    updateAndSortScores(player);
+    for(int i=0; i<8; i++){
+        int score = playerScore(rowsColumnsDiags.all[i]->targetCells, player);
+        int move = cellsHaveLegalMove(rowsColumnsDiags.all[i]->targetCells);
+        if(score == 2 && move != NULL)
+            return rowsColumnsDiags.all[i]->coordinates[move];
+    }
+    return NULL;
 }

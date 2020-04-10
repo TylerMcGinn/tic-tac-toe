@@ -4,6 +4,7 @@
 #include <time.h>
 #include "sharedGameObjects.h"
 
+
 void generateSeed(){
     srand(time(0));
 }

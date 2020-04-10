@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #include "ticTacToe.h"
 
-int cellsHaveLegalMove(int** cells){
-    for(int i=0; i<3; i++){
-        if(*cells[i] == -1)
-            return i;
-    }
-    return NULL;
-    // for(int i=0; i<3; i++){
-    //     printf("%d\n",*cells[i]);
-    // }
-}
+// int cellsHaveLegalMove(int** cells){
+//     for(int i=0; i<3; i++){
+//         if(*cells[i] == -1)
+//             return i;
+//     }
+//     return NULL;
+//     // for(int i=0; i<3; i++){
+//     //     printf("%d\n",*cells[i]);
+//     // }
+// }
 
 
 int main(){
@@ -34,8 +34,13 @@ int main(){
     updateAndSortScores(game.playerX);
     for(int i=0; i<8; i++){
         // printf("%d\n", cellsHaveLegalMove(&rowsColumnsDiags.all[i]->targetCells));
-        cellsHaveLegalMove(rowsColumnsDiags.all[i]->targetCells);
-        printf("%s\n",cellsHaveLegalMove(rowsColumnsDiags.all[i]->targetCells) ? "true" : "false");
+        // cellsHaveLegalMove(rowsColumnsDiags.all[i]->targetCells);
+        if(cellsHaveLegalMove(rowsColumnsDiags.all[i]->targetCells)){
+            // for(int j=0; j<3; j++){
+                printf("score %d  ",rowsColumnsDiags.all[i]->score);
+                printf("coordinates x:%d,y:%d \n",rowsColumnsDiags.all[i]->coordinates[0][0], rowsColumnsDiags.all[i]->coordinates[0][1]);
+
+            }
         // printf(" %d\n", rowsColumnsDiags.all[i]->score);
     }
     printf("end\n");
