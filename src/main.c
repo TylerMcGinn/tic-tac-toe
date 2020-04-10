@@ -12,13 +12,14 @@ int main(){
     // for(int i=0; i<8; i++){
     //     printf("%d\n", rowsColumnsDiags.all[i]->score);
     // }
-    // int** selectedCells = canWinNextMove(game.playerX);
-    // if(selectedCells != NULL){
-    //     for(int i=0; i<3; i++){
-    //         printf("%d\n",*selectedCells[i]);
+    boardPositions* selectedCells = canWinNextMove(game.playerX);
+    if(selectedCells != NULL){
+        for(int i=0; i<3; i++){
+            printf("%d\n",**selectedCells[i]->leftColumn.score);
 
-    //     }
-    // }
+        }
+        printf("not null");
+    }
     printf("end\n");
     
     system("pause");

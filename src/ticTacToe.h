@@ -19,7 +19,7 @@ void delay(int ms);
 
 //bot.c
 void echoBotMove(int x, int y);
-int** canWinNextMove(int player);
+boardPositions* canWinNextMove(int player);
 void botPlayerMove();
 void updateScore(cells* object, int score);
 void swapScores(cells* x, cells* y);
@@ -68,6 +68,7 @@ TicTacToe game = {
 boardPositions rowsColumnsDiags = {
     {
         0,
+        {{1,1},{2,2},{3,3}},
         {
             //leftDiag
             &game.boardState[0][0],
@@ -77,6 +78,7 @@ boardPositions rowsColumnsDiags = {
     },
     {
         0,
+        {{1,1},{2,2},{3,3}},
         {
             //rightDiag
             &game.boardState[0][2],
@@ -86,6 +88,7 @@ boardPositions rowsColumnsDiags = {
     },
     {
         0,
+        {{1,1},{2,2},{3,3}},
         {
             //upperRow
             &game.boardState[0][0],
@@ -95,6 +98,7 @@ boardPositions rowsColumnsDiags = {
     },
     {
         0,
+        {{1,1},{2,2},{3,3}},
         {
             //middleRow
             &game.boardState[0][1],
@@ -104,6 +108,7 @@ boardPositions rowsColumnsDiags = {
     },
     {
         0,
+        {{1,1},{2,2},{3,3}},
         {
             //bottomRow
             &game.boardState[0][2],
@@ -113,6 +118,7 @@ boardPositions rowsColumnsDiags = {
     },
     {
         0,
+        {{1,1},{2,2},{3,3}},
         {
             //leftColumn
             &game.boardState[0][0],
@@ -122,6 +128,7 @@ boardPositions rowsColumnsDiags = {
     },
     {
         0,
+        {{1,1},{2,2},{3,3}},
         {
             //middleColumn
             &game.boardState[1][0],
@@ -131,6 +138,7 @@ boardPositions rowsColumnsDiags = {
     },
      {
          0,
+         {{1,1},{2,2},{3,3}},
          {
             //rightColumn
             &game.boardState[2][0],

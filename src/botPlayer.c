@@ -10,10 +10,10 @@ void echoBotMove(int x, int y){
 }
 
 
-int** canWinNextMove(int player){
+boardPositions* canWinNextMove(int player){
     for(int i=0; i<8; i++){
         if(playerScore(rowsColumnsDiags.all[i]->targetCells, player) == 2)
-            return rowsColumnsDiags.all[i]->targetCells;
+            return rowsColumnsDiags.all[i];
     }
     return NULL;
 }
@@ -29,18 +29,18 @@ void botPlayerMove(){
         echoBotMove(randomMoveX, randomMoveY);
     }
     else{
-        int** winningMoveBot = canWinNextMove(game.playerO);
-        int** winningMovePlayer = canWinNextMove(game.playerX);
-        if(winningMoveBot != NULL){
-            for(int i=0; i<3; i++){
-                if(*winningMoveBot[i] == -1)
-                    *winningMoveBot[i] = 0;
-            }
-            echoBotMove(randomMoveX, randomMoveY);
-        }
-        else if(*winningMovePlayer != NULL){
-            
-        }
+        // int** winningMoveBot = canWinNextMove(game.playerO);
+        // int** winningMovePlayer = canWinNextMove(game.playerX);
+        // if(winningMoveBot != NULL){
+        //     for(int i=0; i<3; i++){
+        //         if(*winningMoveBot[i] == -1)
+        //             *winningMoveBot[i] = 0;
+        //     }
+        //     echoBotMove(randomMoveX, randomMoveY);
+        // }
+        // else if(*winningMovePlayer != NULL){
+
+        // }
     }
 }
 
