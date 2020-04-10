@@ -10,7 +10,7 @@ void echoBotMove(int x, int y){
 }
 
 
-boardPositions* canWinNextMove(int player){
+cells* canWinNextMove(int player){
     for(int i=0; i<8; i++){
         if(playerScore(rowsColumnsDiags.all[i]->targetCells, player) == 2)
             return rowsColumnsDiags.all[i];
@@ -29,6 +29,7 @@ void botPlayerMove(){
         echoBotMove(randomMoveX, randomMoveY);
     }
     else{
+        updateAndSortScores(game.playerO);
         // int** winningMoveBot = canWinNextMove(game.playerO);
         // int** winningMovePlayer = canWinNextMove(game.playerX);
         // if(winningMoveBot != NULL){
@@ -45,26 +46,6 @@ void botPlayerMove(){
 }
 
 
-void updateScore(cells* object, int score){
-    object->score = score;
-}
-
-
-void swapScores(cells* x, cells* y){
-    cells temp = *x;
-    *x = *y;
-    *y = temp;
-}
-
-
-void sortScores(cells** array){
-    for(int i=0; i<8; i++){
-        for(int j=i+1; j<8; j++){
-            if(array[i]->score < array[j]->score)
-                swapScores(array[i], array[j]);
-        }
-    }
-}
 
 
 

@@ -19,11 +19,9 @@ void delay(int ms);
 
 //bot.c
 void echoBotMove(int x, int y);
-boardPositions* canWinNextMove(int player);
+cells* canWinNextMove(int player);
 void botPlayerMove();
-void updateScore(cells* object, int score);
-void swapScores(cells* x, cells* y);
-void sortScores(cells** array);
+
 
 
 //game.c
@@ -40,11 +38,14 @@ void play();
 bool isValidRange(int x, int y);
 bool moveAvailable(int x, int y);
 bool isLegalMove(int x, int y);
+// bool cellsHaveLegalMove(cells cells);
 void gameWon();
 bool playerWon(int score);
 int playerScore(int** cell, int player);
-
-
+void updateScore(cells* object, int score);
+void swapScores(cells* x, cells* y);
+void sortScores(cells** array);
+void updateAndSortScores(int player);
 
 TicTacToe game = {
     false,

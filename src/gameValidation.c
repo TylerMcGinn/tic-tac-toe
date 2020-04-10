@@ -17,6 +17,15 @@ bool isLegalMove(int x, int y){
 }
 
 
+// bool cellsHaveLegalMove(int* cells){
+//     for(int i=0; i<3; i++){
+//         if(cells[i] == -1)
+//             return true;
+//     }
+//     return false;
+// }
+
+
 void gameWon(int player){
     if(player == game.playerX)
         printf("YOU WIN!\n");
@@ -36,5 +45,37 @@ int playerScore(int** cell, int player){
         if(*cell[i] == player)
             sum++;
     }
+    // updateScore(&cell[i], sum);
     return sum;
+}
+
+
+void updateScore(cells* object, int score){
+    object->score = score;
+}
+
+
+void swapScores(cells* x, cells* y){
+    cells temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+
+void sortScores(cells** array){
+    for(int i=0; i<8; i++){
+        for(int j=i+1; j<8; j++){
+            if(array[i]->score < array[j]->score)
+                swapScores(array[i], array[j]);
+        }
+    }
+}
+
+
+void updateAndSortScores(int player){
+    for(int i=0; i<8; i++){
+        int newScore = playerScore(rowsColumnsDiags.all[i]->targetCells, player);
+        updateScore(rowsColumnsDiags.all[i], newScore);
+    }
+    sortScores(rowsColumnsDiags.all);
 }
