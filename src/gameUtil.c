@@ -3,7 +3,6 @@
 #include "sharedGameObjects.h"
 
 
-
 bool isValidRange(int x, int y){
     return (x >= 0 && x <= 2 && y >= 0 && y <= 2 ) ? true : false;
 }
@@ -38,7 +37,6 @@ void echoGameOver(int player){
 }
 
 
-//NOTE: input format = playerScore(rowsColumnsDiags.all[i]->targetCells, game.playerX);
 int playerScore(int** cell, int player){
     int sum = 0;
     for(int i=0; i<3; i++){
@@ -92,34 +90,27 @@ int* canWinNextMove(int player){
 }
 
 
-void openMoves(){
-    bool openPositions = false;
+bool openMoves(){
     for(int row=0; row<3; row++){
         for(int col=0; col<3; col++){
             if(game.boardState[row][col] == -1)
-                openPositions = true;
-            // printf("val:%d\n", game.boardState[row][col]);
+                return true;
         }
     }
-    game.gameInPlay = openPositions;
+    return false;
 }
 
 
-void checkForWinner(){
+bool checkForWinner(){
     for(int i=0; i<8; i++){
-        // printf("%d\n",playerScore(rowsColumnsDiags.all[i]->targetCells, game.playerO));
         if(playerScore(rowsColumnsDiags.all[i]->targetCells, game.playerX) == 3){
-            printf("\nhit Player O\n");
             game.winningPlayer = game.playerX;
-            game.gameInPlay = false;
-            printf("%s\n", game.gameInPlay ? "true": "false");
-
+            return false;
         }
         if(playerScore(rowsColumnsDiags.all[i]->targetCells, game.playerO) == 3){
-            printf("\nhit Player O\n");
             game.winningPlayer = game.playerO;
-            game.gameInPlay = false;
-            printf("%s\n", game.gameInPlay ? "true": "false");
+            return false;
         }
     }
+    return true;
 }

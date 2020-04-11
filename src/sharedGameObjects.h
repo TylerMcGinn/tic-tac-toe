@@ -1,11 +1,13 @@
 #ifndef GAME_OBJECTS
 #define GAME_OBJECTS
 
+
 #define X_PLAY " X "
 #define O_PLAY " O "
 #define OPEN_POSITION "   "
 #define VERTICAL_DIV " | "
 #define HORIZONTAL_DIV "---"
+
 
 typedef struct {
     bool playerTurn;
@@ -14,8 +16,7 @@ typedef struct {
     int playerInputX;
     int playerInputY;
     bool gameJustStarted;
-    bool gameInPlay;
-    bool winningPlayer;
+    int winningPlayer;
     int boardState[3][3];
 }TicTacToe;
 

@@ -15,7 +15,7 @@ void botRandomMove();
 void botPlayerMove();
 
 
-//userPlayer.c - user based functions
+//userPlayer.c - user player functions
 void getUsersName();
 void userPlayerMove();
 
@@ -40,8 +40,8 @@ void swapScores(cells* x, cells* y);
 void sortScores(cells** array);
 void updateAndSortScores(int player);
 int* canWinNextMove(int player);
-void openMoves();
-void checkForWinner();
+bool openMoves();
+bool checkForWinner();
 
 
 //gameRandomNum.c - delay and random number functions
@@ -60,20 +60,10 @@ TicTacToe game = {
     0,
     0,
     true,
-    true,
-    NULL,
+    -1,
     {{-1, -1, -1},
     {-1, -1, -1},
     {-1, -1, -1}}
-    // {{1, 2, 3},
-    // {4, 5, 6},
-    // {7, 8, 9}}
-    //  {{1, 1, -1},
-    // {-1, -1, -1},
-    // {-1, -1, -1}}
-    //  {{1, 2, 3},
-    // {4, 5, 6},
-    // {7, 8, 9}}
 };
 
 

@@ -20,7 +20,7 @@ void playGame(){
     greeting();
     getUsersName();
     startingPlayerRandomize();
-    while(game.gameInPlay){
+    while(checkForWinner() && openMoves()){
         play();
     }
     echoGameOver(game.winningPlayer);
@@ -55,7 +55,5 @@ void play(){
         botPlayerMove();
         game.playerTurn = game.playerX;
     }
-    checkForWinner();
-    openMoves();
 }
 
