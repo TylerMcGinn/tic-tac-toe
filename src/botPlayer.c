@@ -23,6 +23,26 @@ void botRandomMove(){
 }
 
 
+bool increaseScore(){
+    updateAndSortScores(game.playerO);
+    int i=0;
+    while(rowsColumnsDiags.all[i]->score >= 1){
+        int* availableGroup = availableCellGroup(i);
+        if(availableGroup != NULL){
+            int row = availableGroup[0];
+            int col = availableGroup[1];
+        // printf("%d,%d\n",row,col);
+
+            game.boardState[row][col] = game.playerO;
+            return true;
+        }
+        i++;
+    }
+    return false;
+}
+
+
+
 void botPlayerMove(){
     //make starting random move
     if(game.gameJustStarted){
@@ -47,7 +67,8 @@ void botPlayerMove(){
     }
     else
     {
-        botRandomMove();
+        if(!increaseScore())
+            botRandomMove();
     }
 }
 

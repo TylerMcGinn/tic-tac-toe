@@ -12,6 +12,7 @@
 //botPlayer.c - bot player functions
 void echoBotMove(int x, int y);
 void botRandomMove();
+bool increaseScore();
 void botPlayerMove();
 
 
@@ -42,6 +43,7 @@ void updateAndSortScores(int player);
 int* canWinNextMove(int player);
 bool openMoves();
 bool checkForWinner();
+int* availableCellGroup(int index);
 
 
 //gameRandomNum.c - delay and random number functions
@@ -64,6 +66,9 @@ TicTacToe game = {
     {{-1, -1, -1},
     {-1, -1, -1},
     {-1, -1, -1}}
+    // {{-1, -1, -1},
+    // {-1, -1, 0},
+    // {-1, -1, -1}}
 };
 
 
