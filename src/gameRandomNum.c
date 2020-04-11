@@ -27,9 +27,8 @@ void startingPlayerRandomize(){
     game.playerTurn = randomBool();
 }
 
+
 void delay(int delayMs){
     int start = clock();
     while(clock() < (start + delayMs));
 }
-
-

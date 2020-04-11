@@ -23,24 +23,22 @@ void botRandomMove(){
 }
 
 
-bool increaseScore(){
+bool connectGroup(){
     updateAndSortScores(game.playerO);
     int i=0;
     while(rowsColumnsDiags.all[i]->score >= 1){
         int* availableGroup = availableCellGroup(i);
-        if(availableGroup != NULL){
+        if(availableGroup != -1){
             int row = availableGroup[0];
             int col = availableGroup[1];
-        // printf("%d,%d\n",row,col);
-
             game.boardState[row][col] = game.playerO;
+            echoBotMove(row, col);
             return true;
         }
         i++;
     }
     return false;
 }
-
 
 
 void botPlayerMove(){
@@ -50,7 +48,7 @@ void botPlayerMove(){
         game.gameJustStarted = false;
     }
     //if can win, play winning move
-    else if(canWinNextMove(game.playerO) != NULL){
+    else if(canWinNextMove(game.playerO) != -1){
         int* moveCoordinates = canWinNextMove(game.playerO);
         int row = moveCoordinates[0];
         int col = moveCoordinates[1];
@@ -58,22 +56,17 @@ void botPlayerMove(){
         echoBotMove(row, col);
     }
     //if user is about to win, try to block
-    else if(canWinNextMove(game.playerX) != NULL){
+    else if(canWinNextMove(game.playerX) != -1){
         int* moveCoordinates = canWinNextMove(game.playerX);
         int row = moveCoordinates[0];
         int col = moveCoordinates[1];
         game.boardState[row][col] = game.playerO;
         echoBotMove(row, col);
     }
+    //try to make another connection, else random move
     else
     {
-        if(!increaseScore())
+        if(!connectGroup())
             botRandomMove();
     }
 }
-
-
-
-
-
-

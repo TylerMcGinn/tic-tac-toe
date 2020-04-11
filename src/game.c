@@ -56,4 +56,3 @@ void play(){
         game.playerTurn = game.playerX;
     }
 }
-

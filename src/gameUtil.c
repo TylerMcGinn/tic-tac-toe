@@ -23,17 +23,17 @@ int cellsHaveLegalMove(int** cells){
         if(*cells[i] == -1)
             return i;
     }
-    return NULL;
+    return -1;
 }
 
 
 void echoGameOver(int player){
     if(player == game.playerX)
-        printf("\nYOU WIN!\n");
+        printf("\nYOU WIN!\n\n");
     else if(player == game.playerO)
-        printf("\nCOMPUTER WON!\n");
+        printf("\nCOMPUTER WON!\n\n");
     else
-        printf("\nDRAW!\n");
+        printf("\nDRAW!\n\n");
 }
 
 
@@ -83,10 +83,10 @@ int* canWinNextMove(int player){
     for(int i=0; i<8; i++){
         int score = playerScore(rowsColumnsDiags.all[i]->targetCells, player);
         int move = cellsHaveLegalMove(rowsColumnsDiags.all[i]->targetCells);
-        if(score == 2 && move != NULL)
+        if(score == 2 && move != -1)
             return rowsColumnsDiags.all[i]->coordinates[move];
     }
-    return NULL;
+    return -1;
 }
 
 
@@ -128,13 +128,5 @@ int* availableCellGroup(int index){
                 return rowsColumnsDiags.all[index]->coordinates[i];
         }
     }
-    return NULL;
-   
+    return -1;
 }
-
-// int* availableCellGroup(int index){
-//     int openPositions = 0;
-//     rowsColumnsDiags.all[index]->coordinates[]
-//     return NULL;
-   
-// }

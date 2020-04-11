@@ -12,7 +12,7 @@
 //botPlayer.c - bot player functions
 void echoBotMove(int x, int y);
 void botRandomMove();
-bool increaseScore();
+bool connectGroup();
 void botPlayerMove();
 
 
@@ -54,7 +54,6 @@ void startingPlayerRandomize();
 void delay(int ms);
 
 
-
 TicTacToe game = {
     false,
     true,
@@ -66,9 +65,6 @@ TicTacToe game = {
     {{-1, -1, -1},
     {-1, -1, -1},
     {-1, -1, -1}}
-    // {{-1, -1, -1},
-    // {-1, -1, 0},
-    // {-1, -1, -1}}
 };
 
 
